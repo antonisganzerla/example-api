@@ -1,2 +1,2 @@
-# ExampleApi
-Api de Exemplo Asp.Net Core com Swagger
+# example-api
+Api contruída em Asp.Net Core com Swagger

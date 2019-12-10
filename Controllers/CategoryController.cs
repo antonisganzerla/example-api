@@ -37,4 +37,40 @@ public class CategoryController: ControllerBase{
         }
     }
 
+    [HttpPut]
+    [Route("")]
+    public async Task<ActionResult<Category>> Put(
+        [FromServices] DataContext context,
+        [FromBody] Category model
+        )
+    {
+        if(ModelState.IsValid)
+        {
+            context.Categories.Update(model);
+            await context.SaveChangesAsync();
+            return model;
+        }
+        else
+        {
+            return BadRequest(ModelState);
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Category>> Delete(
+        [FromServices] DataContext context,
+        int id
+        )
+    {
+        var category = await context.Categories.FindAsync(id);
+        if(category == null)
+        {
+            return BadRequest();
+        }
+        context.Categories.Remove(category);
+        await context.SaveChangesAsync();
+
+        return category;
+    }
+
 }

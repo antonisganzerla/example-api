@@ -21,10 +21,12 @@ namespace apief
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddDbContext<DataContext>();
             services.AddScoped<DataContext, DataContext>();
             services.AddControllers();
             
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -39,6 +41,12 @@ namespace apief
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(x => x
+                       .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowAnyOrigin()
+            );
 
             app.UseHttpsRedirection();
 
@@ -57,6 +65,8 @@ namespace apief
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("MyPolicy");
 
             app.UseEndpoints(endpoints =>
             {
